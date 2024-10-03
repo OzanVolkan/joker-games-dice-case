@@ -1,9 +1,16 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class UIManager : MonoBehaviour
 {
+    public static event Action<int, List<int>> OnDiceRoll;
+    
+    [Header("Buttons")] [SerializeField] private Button _diceRollButton;
+    
     [Header("Dice Settings")] [SerializeField]
     private TMP_Dropdown _diceCountDropdown;
     [SerializeField] private GameObject _diceInputFieldPrefab;
@@ -15,9 +22,11 @@ public class UIManager : MonoBehaviour
 
     private readonly int _maxDiceCount = 20;
 
-    void Start()
+    private void Start()
     {
         _diceCountDropdown.onValueChanged.AddListener(OnDropdownValueChanged);
+        
+        _diceRollButton.onClick.AddListener(DiceRollButtonOnClick);
         
         GenerateDropdownOptions();
         GenerateDiceInputFields(_maxDiceCount);
@@ -65,11 +74,58 @@ public class UIManager : MonoBehaviour
 
         var numberOfFields = _diceCountDropdown.value + 1;
 
-        // Seçilen sayı kadar input field oluştur
         for (int i = 0; i < numberOfFields; i++)
         {
             _diceInputFields[i].SetActive(true);
         }
+    }
+    
+    private int GetCurrentDiceCount()
+    {
+        return _diceCountDropdown.value + 1;
+    }
+
+    private List<int> GetActiveInputFieldValues()
+    {
+        var activeValues = new List<int>();
+
+        for (int i = 0; i < _inputFieldContentParent.childCount; i++)
+        {
+            var child = _inputFieldContentParent.GetChild(i).gameObject;
+
+            if (!child.activeInHierarchy) continue;
+            
+            var inputFieldText = child.GetComponent<DiceValueInputField>().InputField.text;
+
+            if (string.IsNullOrEmpty(inputFieldText))
+            {
+                var randomValue = Random.Range(1, 7);
+                activeValues.Add(randomValue);
+            }
+            else if (int.TryParse(inputFieldText, out int parsedValue))
+            {
+                activeValues.Add(parsedValue);
+            }
+            else
+            {
+                Debug.LogWarning("Invalid number input: " + inputFieldText);
+            }
+        }
+
+        return activeValues;
+    }
+    
+    #endregion
+
+    #region ButtonOnClickMethods
+
+    private void DiceRollButtonOnClick()
+    {
+        var currentDiceCount = GetCurrentDiceCount();
+
+        var currentValues = GetActiveInputFieldValues();
+        
+        OnDiceRoll?.Invoke(currentDiceCount, currentValues);
     }
 
     #endregion

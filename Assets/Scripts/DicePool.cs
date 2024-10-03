@@ -9,7 +9,7 @@ public class DicePool : MonoBehaviour
     private List<GameObject> _dicePool = new();
     private readonly int _poolSize = 20;
 
-    void Start()
+    private void Start()
     {
         PoolDice(_poolSize);
     }

@@ -9,12 +9,11 @@ public class DiceManager : MonoBehaviour
     public static DiceManager Instance;
 
     [SerializeField] private Transform _camTransform;
-    [SerializeField] private List<int> _tempValues = new();
 
     #region DiceMinMaxValues
 
     private readonly float _diceYValue = 16.7f;
-    private readonly float _diceZOffset = 22.5f;
+    private readonly float _diceZOffset = 10;
 
     #endregion
 
@@ -39,17 +38,19 @@ public class DiceManager : MonoBehaviour
             Instance = this;
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GetPooledDice();
-        }
+        UIManager.OnDiceRoll += GetPooledDice;
     }
 
-    private void GetPooledDice()
+    private void OnDisable()
     {
-        for (int i = 0; i < _tempValues.Count; i++)
+        UIManager.OnDiceRoll -= GetPooledDice;
+    }
+
+    private void GetPooledDice(int diceCount, List<int> diceValues)
+    {
+        for (int i = 0; i < diceCount; i++)
         {
             foreach (KeyValuePair<Transform, Animator> entry in _diceDic)
             {
@@ -61,10 +62,8 @@ public class DiceManager : MonoBehaviour
                     key.gameObject.SetActive(true);
 
                     DiceRandomPosition(key);
-                    
-                    //TODO: ANİMASYONLARI ATAMA YAP. ANİMATION CONTROLLERDAN TRIGGERLARI BAGLA
-                    
-                     GenerateDiceAnims(_tempValues[i]);
+
+                    value.SetTrigger(GenerateDiceAnims(diceValues[i]));
 
                     break;
                 }
@@ -87,26 +86,12 @@ public class DiceManager : MonoBehaviour
         diceTrans.position = dicePos;
     }
 
-    private void RollDice(List<int> diceValues)
+    private string GenerateDiceAnims(int value)
     {
-        var diceCount = diceValues.Count;
-
-        for (int i = 0; i < diceCount; i++)
-        {
-        }
-    }
-
-    public string GenerateDiceAnims(int value)
-    {
-        // int randomNumber = Random.Range(1, 7); // 1 ile 6 arasında rastgele sayı
-        
         var randomLetter =
-            _animTriggerLetters[Random.Range(0, _animTriggerLetters.Length)]; // A, B veya C harflerinden biri
+            _animTriggerLetters[Random.Range(0, _animTriggerLetters.Length)]; // A, B or C
 
-        string animTriggerName = value + randomLetter;
-        // randomAnimTriggers.Add(randomString);
-        
-        Debug.Log(animTriggerName);
+        var animTriggerName = value + randomLetter;
 
         return animTriggerName;
     }

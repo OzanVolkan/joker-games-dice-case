@@ -1,0 +1,32 @@
+{
+  "map": [
+    {
+      "position": 0,
+      "type": "apple",
+      "count": 5
+    },
+    {
+      "position": 1,
+      "type": "pear",
+      "count": 3
+    },
+    {
+      "position": 2,
+      "type": "empty"
+    },
+    {
+      "position": 3,
+      "type": "strawberry",
+      "count": 15
+    },
+    {
+      "position": 4,
+      "type": "empty"
+    },
+    {
+      "position": 5,
+      "type": "pear",
+      "count": 8
+    }
+  ]
+}
