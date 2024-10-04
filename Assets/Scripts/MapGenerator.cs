@@ -7,6 +7,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private GameObject _blockPrefab;
     [SerializeField] private Transform _parentTransform;
 
+    private readonly float _blockOffsetMultiplier = 8.15f;
     private readonly string _mapFileName = "map";
 
     private void Start()
@@ -27,7 +28,8 @@ public class MapGenerator : MonoBehaviour
     {
         foreach (var element in mapData.map)
         {
-            var block = Instantiate(_blockPrefab, new Vector3(0, 0, element.index), Quaternion.identity);
+            var pos = new Vector3(0f, 0, element.index * _blockOffsetMultiplier);
+            var block = Instantiate(_blockPrefab, pos, Quaternion.identity, _parentTransform);
 
             if (element.type != "empty")
             {
