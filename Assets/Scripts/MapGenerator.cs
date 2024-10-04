@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using Blocks;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -31,11 +32,7 @@ public class MapGenerator : MonoBehaviour
             var pos = new Vector3(0f, 0, element.index * _blockOffsetMultiplier);
             var block = Instantiate(_blockPrefab, pos, Quaternion.identity, _parentTransform);
 
-            if (element.type != "empty")
-            {
-                // Blok üzerindeki objenin adını ve miktarını göster
-                //block.GetComponent<Block>().Initialize(element.type, element.count);
-            }
+            BlockFactory.Instance.GetProduct(element.type, pos, _parentTransform, element.index, element.count);
         }
     }
 }
