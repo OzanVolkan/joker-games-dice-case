@@ -1,7 +1,7 @@
 {
   "map": [
-    { "index": 0, "type": "apple", "count": 5 },
-    { "index": 1, "type": "pear", "count": 3 },
+    { "index": 0, "type": "pear", "count": 5 },
+    { "index": 1, "type": "apple", "count": 3 },
     { "index": 2, "type": "empty" },
     { "index": 3, "type": "strawberry", "count": 15 },
     { "index": 4, "type": "empty" },

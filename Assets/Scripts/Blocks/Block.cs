@@ -5,33 +5,18 @@ using UnityEngine.UI;
 
 namespace Blocks
 {
-    public abstract class Block : MonoBehaviour, IProduct
+    public abstract class Block : MonoBehaviour
     {
         [Header("Block Visuals")] [SerializeField]
-        protected  Image _blockImage;
+        protected TextMeshProUGUI _rewardCountText;
 
-        [SerializeField] protected TextMeshProUGUI _rewardCountText;
         [SerializeField] protected TextMeshProUGUI _blockNumber;
 
         private Sprite _blockSprite;
 
-        #region Properties
-
-        public string Type { get; }
-
-        #endregion
-
-
-        protected Block(int index, string type, int rewardCount)
+        public virtual void InitializeUI(int index, int rewardCount)
         {
-            Type = type;
-            _blockSprite = Resources.Load<Sprite>($"Sprites/{type}");
-        }
-
-        protected virtual void InitializeUI(int index, int rewardCount)
-        {
-            _blockImage.sprite = _blockSprite;
-            _rewardCountText.text = rewardCount.ToString();
+            _rewardCountText.text = ($"x{rewardCount}");
             _blockNumber.text = (index + 1).ToString();
         }
     }

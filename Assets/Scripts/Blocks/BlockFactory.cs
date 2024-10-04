@@ -33,22 +33,33 @@ namespace Blocks
         }
 
 
-        public IProduct GetProduct(string productType, Vector3 pos, Transform parent, int index, int rewardCount)
+        public void GetProduct(string productType, Vector3 pos, Transform parent, int index, int rewardCount = 0)
         {
             switch (productType)
             {
                 case "apple":
                     var appleBlock = Instantiate(_appleBlock, pos, Quaternion.identity, parent);
-                    return new AppleBlock(index, productType, rewardCount);
+                    var appleBlockComp = appleBlock.GetComponent<AppleBlock>();
+                    appleBlockComp.InitializeUI(index,rewardCount);
+                    break;
                 case "pear":
-                    var pearBlock = Instantiate(_appleBlock, pos, Quaternion.identity, parent);
-                    return new PearBlock(index, productType, rewardCount);
+                    var pearBlock = Instantiate(_pearBlock, pos, Quaternion.identity, parent);
+                    var pearBlockComp = pearBlock.GetComponent<PearBlock>();
+                    pearBlockComp.InitializeUI(index,rewardCount);
+                    break;
+
                 case "strawberry":
-                    var strawberryBlock = Instantiate(_appleBlock, pos, Quaternion.identity, parent);
-                    return new StrawberryBlock(index, productType, rewardCount);
+                    var strawberryBlock = Instantiate(_strawberryBlock, pos, Quaternion.identity, parent);
+                    var strawberryBlockComp = strawberryBlock.GetComponent<StrawberryBlock>();
+                    strawberryBlockComp.InitializeUI(index, rewardCount);
+                    break;
+
                 case "empty":
-                    var emptyBlock = Instantiate(_appleBlock, pos, Quaternion.identity, parent);
-                    return new EmptyBlock(index, productType);
+                    var emptyBlock = Instantiate(_epmtyBlock, pos, Quaternion.identity, parent);
+                    var emptyBlockComp = emptyBlock.GetComponent<EmptyBlock>();
+                    emptyBlockComp.InitializeUI(index, 0);
+                    break;
+
                 default:
                     throw new Exception("Invalid product type!");
             }
