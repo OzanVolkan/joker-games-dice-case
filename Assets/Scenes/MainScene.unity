@@ -3719,13 +3719,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1858121326170636346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1799e74f63b9382499729f476499da8d, type: 3}
+  m_Script: {fileID: 11500000, guid: caf4463dbed3e544ba844c22ece05ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition: {fileID: 5521153878703563707}
-  jumpHeight: 2
-  duration: 0.5
-  playerAnimator: {fileID: 5521153878703563708}
 --- !u!1 &5842635471706955784
 GameObject:
   m_ObjectHideFlags: 0
@@ -3776,7 +3772,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7260085030660267724
 Transform:
   m_ObjectHideFlags: 0
@@ -3821,15 +3817,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6659816544289668559}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1799e74f63b9382499729f476499da8d, type: 3}
+  m_Script: {fileID: 11500000, guid: f21d248416ec911478db04535f3cdcab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition: {fileID: 7260085030660267724}
-  jumpHeight: 7.5
-  duration: 0.5
-  playerAnimator: {fileID: 7260085030660267725}
 --- !u!33 &7553578491482963903
 MeshFilter:
   m_ObjectHideFlags: 0
