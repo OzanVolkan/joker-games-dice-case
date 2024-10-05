@@ -5,7 +5,7 @@ namespace Interfaces
 {
     public interface IDrivable
     {
-        public void Move(Vector3 target, float time);
-        public IEnumerator DriveCoroutine(Vector3 target, float time);
+        public void Move(Transform playerTrans, float time, Animator animator);
+        public IEnumerator DriveCoroutine(Transform playerTrans, float time);
     }
 }

@@ -6,26 +6,29 @@ namespace Movement
 {
     public sealed class CarMovement : Movement, IDrivable
     {
-        public void Move(Vector3 target, float time)
+        public void Move(Transform playerTrans, float time, Animator animator)
         {
-            if(_isMoving) return;
+            if (_isMoving) return;
 
-            StartCoroutine(DriveCoroutine(target, time));
+            base.Move(animator);
+
+            StartCoroutine(DriveCoroutine(playerTrans, time));
         }
 
-        public IEnumerator DriveCoroutine(Vector3 target, float time)
+        public IEnumerator DriveCoroutine(Transform playerTrans, float time)
         {
             _isMoving = true;
             float elapsedTime = 0;
             Vector3 startPosition = transform.position;
-
+            Vector3 target = playerTrans.position + _movingOffset;
+            
             while (elapsedTime < time)
             {
                 float t = elapsedTime / time;
 
                 float easeT = EaseType(t);
 
-                Vector3 currentPosition = Vector3.Lerp(startPosition, target + Vector3.forward * 8.15f, easeT);
+                Vector3 currentPosition = Vector3.Lerp(startPosition, target, easeT);
 
                 transform.position = currentPosition;
 
@@ -33,10 +36,10 @@ namespace Movement
                 yield return null;
             }
 
-            transform.position = target + Vector3.forward * 8.15f;
+            transform.position = target;
             _isMoving = false;
         }
-        
+
         //EaseExpoInOut
         protected override float EaseType(float t)
         {

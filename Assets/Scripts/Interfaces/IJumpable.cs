@@ -5,8 +5,8 @@ namespace Interfaces
 {
     public interface IJumpable
     {
-        public void Move(Vector3 target, float height, float time);
-        public IEnumerator JumpCoroutine(Vector3 target, float height, float time);
+        public void Move(Transform playerTrans, float height, float time, Animator animator);
+        public IEnumerator JumpCoroutine(Transform playerTrans, float height, float time);
 
     }
 }

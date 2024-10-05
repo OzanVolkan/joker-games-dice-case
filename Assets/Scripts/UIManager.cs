@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class UIManager : MonoBehaviour
 {
     public static event Action<int, List<int>> OnDiceRoll;
+    public static event Action<List<int>> OnForwardMovement; 
     
     [Header("Buttons")] [SerializeField] private Button _diceRollButton;
     
@@ -126,6 +127,7 @@ public class UIManager : MonoBehaviour
         var currentValues = GetActiveInputFieldValues();
         
         OnDiceRoll?.Invoke(currentDiceCount, currentValues);
+        OnForwardMovement?.Invoke(currentValues);
     }
 
     #endregion

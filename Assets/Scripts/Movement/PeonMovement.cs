@@ -6,18 +6,21 @@ namespace Movement
 {
     public sealed class PeonMovement : Movement, IJumpable
     {
-        public void Move(Vector3 target, float height, float time)
+        public void Move(Transform playerTrans, float height, float time, Animator animator)
         {
-            if(_isMoving) return;
+            if (_isMoving) return;
 
-            StartCoroutine(JumpCoroutine(target, height, time));
+            base.Move(animator);
+
+            StartCoroutine(JumpCoroutine(playerTrans, height, time));
         }
 
-        public IEnumerator JumpCoroutine(Vector3 target, float height, float time)
+        public IEnumerator JumpCoroutine(Transform playerTrans, float height, float time)
         {
             _isMoving = true;
             float elapsedTime = 0;
             Vector3 startPosition = transform.position;
+            Vector3 target = playerTrans.position + _movingOffset;
 
             while (elapsedTime < time)
             {
@@ -25,7 +28,7 @@ namespace Movement
 
                 float easeT = EaseType(t);
 
-                Vector3 currentPosition = Vector3.Lerp(startPosition, target + Vector3.forward * 8.15f, easeT);
+                Vector3 currentPosition = Vector3.Lerp(startPosition, target, easeT);
 
                 float verticalOffset = Mathf.Sin(easeT * Mathf.PI) * height;
                 currentPosition.y += verticalOffset;
@@ -36,10 +39,10 @@ namespace Movement
                 yield return null;
             }
 
-            transform.position = target + Vector3.forward * 8.15f;
+            transform.position = target;
             _isMoving = false;
         }
-        
+
         //EaseInOutQuad
         protected override float EaseType(float t)
         {
