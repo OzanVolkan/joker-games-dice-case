@@ -6,34 +6,40 @@ namespace Movement
 {
     public sealed class CarMovement : Movement, IDrivable
     {
-        public void Move(Transform playerTrans, float time, Animator animator)
+        public void Move(Transform playerTrans, float time, Animator animator, int currentIndex,
+            int blockCount)
         {
             if (_isMoving) return;
 
-            base.Move(animator);
+            if (currentIndex != blockCount)
+                base.Move(animator);
 
-            StartCoroutine(DriveCoroutine(playerTrans, time));
+            StartCoroutine(DriveCoroutine(playerTrans, time, currentIndex, blockCount));
         }
 
-        public IEnumerator DriveCoroutine(Transform playerTrans, float time)
+        public IEnumerator DriveCoroutine(Transform playerTrans, float time, int currentIndex,
+            int blockCount)
         {
             _isMoving = true;
             float elapsedTime = 0;
             Vector3 startPosition = transform.position;
             Vector3 target = playerTrans.position + _movingOffset;
-            
-            while (elapsedTime < time)
+
+            if (currentIndex != blockCount)
             {
-                float t = elapsedTime / time;
+                while (elapsedTime < time)
+                {
+                    float t = elapsedTime / time;
 
-                float easeT = EaseType(t);
+                    float easeT = EaseType(t);
 
-                Vector3 currentPosition = Vector3.Lerp(startPosition, target, easeT);
+                    Vector3 currentPosition = Vector3.Lerp(startPosition, target, easeT);
 
-                transform.position = currentPosition;
+                    transform.position = currentPosition;
 
-                elapsedTime += Time.deltaTime;
-                yield return null;
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
             }
 
             transform.position = target;

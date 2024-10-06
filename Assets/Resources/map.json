@@ -1,11 +1,29 @@
 {
   "map": [
-    { "index": 0, "type": "pear", "count": 5 },
-    { "index": 1, "type": "apple", "count": 3 },
-    { "index": 2, "type": "empty" },
-    { "index": 3, "type": "strawberry", "count": 15 },
+    { "index": 0, "type": "empty" },
+    { "index": 1, "type": "apple", "count": 7 },
+    { "index": 2, "type": "strawberry", "count": 12 },
+    { "index": 3, "type": "pear", "count": 5 },
     { "index": 4, "type": "empty" },
-    { "index": 5, "type": "pear", "count": 8 },
-    { "index": 6, "type": "pear", "count": 9 }
+    { "index": 5, "type": "empty"},
+    { "index": 6, "type": "strawberry", "count": 9 },
+    { "index": 7, "type": "empty" },
+    { "index": 8, "type": "pear", "count": 8 },
+    { "index": 9, "type": "pear", "count": 6 },
+    { "index": 10, "type": "strawberry", "count": 10 },
+    { "index": 11, "type": "empty" },
+    { "index": 12, "type": "pear", "count": 3 },
+    { "index": 13, "type": "apple", "count": 12 },
+    { "index": 14, "type": "strawberry", "count": 7 },
+    { "index": 15, "type": "empty" },
+    { "index": 16, "type": "pear", "count": 9 },
+    { "index": 17, "type": "apple", "count": 1 },
+    { "index": 18, "type": "apple", "count": 5 },
+    { "index": 19, "type": "empty" },
+    { "index": 20, "type": "pear", "count": 11 },
+    { "index": 21, "type": "empty"},
+    { "index": 22, "type": "strawberry", "count": 1 },
+    { "index": 23, "type": "strawberry", "count": 4 },
+    { "index": 24, "type": "pear", "count": 2 }
   ]
 }

@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 237712737}
   - component: {fileID: 237712739}
   m_Layer: 5
-  m_Name: InGamePanel
+  m_Name: DiceControlPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1041,6 +1041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _diceRollButton: {fileID: 349861775}
+  _diceControlPanel: {fileID: 237712736}
   _diceCountDropdown: {fileID: 505103334}
   _diceInputFieldPrefab: {fileID: 5956333811494527977, guid: c252a02ba55eeed429ba148d7339dddd,
     type: 3}

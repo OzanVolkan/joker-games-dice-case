@@ -5,7 +5,10 @@ namespace Interfaces
 {
     public interface IDrivable
     {
-        public void Move(Transform playerTrans, float time, Animator animator);
-        public IEnumerator DriveCoroutine(Transform playerTrans, float time);
+        public void Move(Transform playerTrans, float time, Animator animator, int currentIndex,
+            int blockCount);
+
+        public IEnumerator DriveCoroutine(Transform playerTrans, float time, int currentIndex,
+            int blockCount);
     }
 }

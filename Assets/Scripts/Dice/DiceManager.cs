@@ -64,7 +64,7 @@ public class DiceManager : MonoBehaviour
                     DiceRandomPosition(key);
 
                     value.SetTrigger(GenerateDiceAnims(diceValues[i]));
-
+                    
                     break;
                 }
             }
@@ -95,4 +95,5 @@ public class DiceManager : MonoBehaviour
 
         return animTriggerName;
     }
+    
 }

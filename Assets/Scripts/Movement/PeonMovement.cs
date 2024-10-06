@@ -6,40 +6,48 @@ namespace Movement
 {
     public sealed class PeonMovement : Movement, IJumpable
     {
-        public void Move(Transform playerTrans, float height, float time, Animator animator)
+        public void Move(Transform playerTrans, float height, float time, Animator animator, int currentIndex,
+            int blockCount)
         {
             if (_isMoving) return;
 
-            base.Move(animator);
+            if (currentIndex != blockCount)
+                base.Move(animator);
 
-            StartCoroutine(JumpCoroutine(playerTrans, height, time));
+            StartCoroutine(JumpCoroutine(playerTrans, height, time, currentIndex, blockCount));
         }
 
-        public IEnumerator JumpCoroutine(Transform playerTrans, float height, float time)
+        public IEnumerator JumpCoroutine(Transform playerTrans, float height, float time, int currentIndex,
+            int blockCount)
         {
             _isMoving = true;
             float elapsedTime = 0;
             Vector3 startPosition = transform.position;
             Vector3 target = playerTrans.position + _movingOffset;
 
-            while (elapsedTime < time)
+            if(currentIndex != blockCount)
             {
-                float t = elapsedTime / time;
+                while (elapsedTime < time)
+                {
+                    float t = elapsedTime / time;
 
-                float easeT = EaseType(t);
+                    float easeT = EaseType(t);
 
-                Vector3 currentPosition = Vector3.Lerp(startPosition, target, easeT);
+                    Vector3 currentPosition = Vector3.Lerp(startPosition, target, easeT);
 
-                float verticalOffset = Mathf.Sin(easeT * Mathf.PI) * height;
-                currentPosition.y += verticalOffset;
+                    float verticalOffset = Mathf.Sin(easeT * Mathf.PI) * height;
+                    currentPosition.y += verticalOffset;
 
-                transform.position = currentPosition;
+                    transform.position = currentPosition;
 
-                elapsedTime += Time.deltaTime;
-                yield return null;
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                transform.position = target;
             }
 
-            transform.position = target;
+
             _isMoving = false;
         }
 

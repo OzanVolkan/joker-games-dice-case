@@ -8,12 +8,15 @@ using Random = UnityEngine.Random;
 public class UIManager : MonoBehaviour
 {
     public static event Action<int, List<int>> OnDiceRoll;
-    public static event Action<List<int>> OnForwardMovement; 
+    public static event Action<List<int>> OnForwardMovement;
+
+    private Action _onMovementEndAction;
     
     [Header("Buttons")] [SerializeField] private Button _diceRollButton;
-    
+
     [Header("Dice Settings")] [SerializeField]
-    private TMP_Dropdown _diceCountDropdown;
+    private GameObject _diceControlPanel;
+    [SerializeField] private TMP_Dropdown _diceCountDropdown;
     [SerializeField] private GameObject _diceInputFieldPrefab;
     [SerializeField] private Transform _inputFieldContentParent;
 
@@ -22,6 +25,17 @@ public class UIManager : MonoBehaviour
 
 
     private readonly int _maxDiceCount = 20;
+
+    private void OnEnable()
+    {
+        _onMovementEndAction = () => ButtonInteractableState(true, _diceRollButton);
+        PlayerController.OnMovementEnd += _onMovementEndAction;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.OnMovementEnd -= _onMovementEndAction;
+    }
 
     private void Start()
     {
@@ -118,10 +132,21 @@ public class UIManager : MonoBehaviour
     
     #endregion
 
+    #region UIAdjusments
+
+    private void ButtonInteractableState(bool isActive, Button button)
+    {
+        button.interactable = isActive;
+    }
+
+    #endregion
+
     #region ButtonOnClickMethods
 
     private void DiceRollButtonOnClick()
     {
+        ButtonInteractableState(false, _diceRollButton);
+        
         var currentDiceCount = GetCurrentDiceCount();
 
         var currentValues = GetActiveInputFieldValues();

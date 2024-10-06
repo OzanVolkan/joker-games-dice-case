@@ -26,11 +26,17 @@ public class MapGenerator : MonoBehaviour
 
     private void CreateMap(MapData mapData)
     {
+        var blockCount = 0;
+        
         foreach (var element in mapData.map)
         {
             var pos = new Vector3(0f, 0, element.index * _blockOffsetMultiplier);
             
             BlockFactory.Instance.GetProduct(element.type, pos, _parentTransform, element.index, element.count);
+            
+            blockCount++;
         }
+
+        PlayerController.Instance.BlockCount = blockCount;
     }
 }
