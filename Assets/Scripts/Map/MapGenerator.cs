@@ -13,7 +13,6 @@ public class MapGenerator : MonoBehaviour
     private void Start()
     {
         var mapData = LoadMapData(_mapFileName);
-        Debug.Log(JsonUtility.ToJson(mapData, true));
         CreateMap(mapData);
     }
 

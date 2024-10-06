@@ -16,8 +16,11 @@ public class PlayerController : MonoBehaviour
     private Movement.Movement _playerMovement;
     private Transform _playerTransform;
     private Animator _playerAnimator;
+    private Collider _playerCollider;
     private int _currentIndex;
 
+    //TODO: DÜZENLENECEK VE HER İKİ CHARA DA KOYULACAK!!!!!!!!!!!!!!!!!!!!****
+    public GameObject endParticle;
 
     #region ReadonlyFields
 
@@ -77,6 +80,7 @@ public class PlayerController : MonoBehaviour
                 _playerMovement = child.GetComponent<Movement.Movement>();
                 _playerTransform = child;
                 _playerAnimator = child.GetComponent<Animator>();
+                _playerCollider = child.GetComponent<Collider>();
             }
         }
     }
@@ -85,52 +89,73 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer(List<int> diceValues)
     {
-        StartCoroutine(MoveCalculation(diceValues, _playerTransform, _jumpHeight, _moveTime,
+        StartCoroutine(MoveCalculation(diceValues, _moveTime,
             _playerAnimator, _currentIndex, BlockCount));
     }
 
-    private IEnumerator MoveCalculation(List<int> diceValues, Transform playerTrans, float height, float time,
+    private IEnumerator MoveCalculation(List<int> diceValues, float time,
         Animator animator, int currentIndex, int blockCount)
     {
         var stepAmount = diceValues.Sum();
-
-        Action moveMethod = _playerMovement switch
-        {
-            PeonMovement peonMovement => () =>
-                peonMovement.Move(playerTrans, height, time, animator, currentIndex, blockCount),
-            CarMovement carMovement => () => carMovement.Move(playerTrans, time, animator, currentIndex, blockCount),
-            _ => null
-        };
+        Action moveMethod = GetMoveMethod(animator, currentIndex, blockCount);
 
         yield return new WaitForSeconds(_waitTimeBeforeMove);
 
         for (int i = 1; i <= stepAmount; i++)
         {
             _currentIndex++;
+
             if (_currentIndex == BlockCount)
             {
                 _currentIndex = 0;
 
-                OnEndMap?.Invoke(_playerAnimator);
-                _playerMovement.VerticalJump(playerTrans, time, true);
-                yield return new WaitForSeconds(time);
+                yield return HandleEndOfMap(_playerTransform, time);
 
-                playerTrans.localPosition = _startOverPos;
-                OnEnterMap?.Invoke(_playerAnimator);
-                _playerMovement.VerticalJump(playerTrans, time, false);
-
-                yield return new WaitForSeconds(time + 0.1f);
                 continue;
             }
 
             moveMethod?.Invoke();
 
             yield return new WaitForSeconds(time + 0.1f);
+            
+            if (i == stepAmount)
+                EnableCollider(true);
         }
 
         yield return new WaitForSeconds(time);
 
+        EnableCollider(false);
         OnMovementEnd?.Invoke();
+    }
+
+    private Action GetMoveMethod(Animator animator, int currentIndex, int blockCount)
+    {
+        return _playerMovement switch
+        {
+            PeonMovement peonMovement => () =>
+                peonMovement.Move(_playerTransform, _jumpHeight, _moveTime, animator, currentIndex, blockCount),
+            CarMovement carMovement => () =>
+                carMovement.Move(_playerTransform, _moveTime, animator, currentIndex, blockCount),
+            _ => null
+        };
+    }
+
+    private IEnumerator HandleEndOfMap(Transform playerTrans, float time)
+    {
+        OnEndMap?.Invoke(_playerAnimator);
+        _playerMovement.VerticalJump(playerTrans, time, true);
+        yield return new WaitForSeconds(time);
+
+        playerTrans.localPosition = _startOverPos;
+        OnEnterMap?.Invoke(_playerAnimator);
+        _playerMovement.VerticalJump(playerTrans, time, false);
+        yield return new WaitForSeconds(time + 0.1f);
+    }
+
+    private void EnableCollider(bool state)
+    {
+        if (_playerCollider.enabled != state)
+            _playerCollider.enabled = state;
     }
 
     #endregion

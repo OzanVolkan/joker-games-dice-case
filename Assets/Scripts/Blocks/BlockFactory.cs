@@ -40,24 +40,24 @@ namespace Blocks
                 case "apple":
                     var appleBlock = Instantiate(_appleBlock, pos, Quaternion.identity, parent);
                     var appleBlockComp = appleBlock.GetComponent<AppleBlock>();
-                    appleBlockComp.InitializeUI(index,rewardCount);
+                    appleBlockComp.Initialize(index,rewardCount);
                     break;
                 case "pear":
                     var pearBlock = Instantiate(_pearBlock, pos, Quaternion.identity, parent);
                     var pearBlockComp = pearBlock.GetComponent<PearBlock>();
-                    pearBlockComp.InitializeUI(index,rewardCount);
+                    pearBlockComp.Initialize(index,rewardCount);
                     break;
 
                 case "strawberry":
                     var strawberryBlock = Instantiate(_strawberryBlock, pos, Quaternion.identity, parent);
                     var strawberryBlockComp = strawberryBlock.GetComponent<StrawberryBlock>();
-                    strawberryBlockComp.InitializeUI(index, rewardCount);
+                    strawberryBlockComp.Initialize(index, rewardCount);
                     break;
 
                 case "empty":
                     var emptyBlock = Instantiate(_epmtyBlock, pos, Quaternion.identity, parent);
                     var emptyBlockComp = emptyBlock.GetComponent<EmptyBlock>();
-                    emptyBlockComp.InitializeUI(index, 0);
+                    emptyBlockComp.Initialize(index, 0);
                     break;
 
                 default:
