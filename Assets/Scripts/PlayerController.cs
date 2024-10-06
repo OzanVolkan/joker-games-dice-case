@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private readonly float _jumpHeight = 1f;
     private readonly float _moveTime = 0.5f;
-    private readonly float _waitTimeBeforeMove = 6f;
+    private readonly float _waitTimeBeforeMove = 4f;
     private readonly Vector3 _startOverPos = new Vector3(0f, 4f, 0f);
 
     #endregion

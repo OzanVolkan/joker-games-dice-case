@@ -9,7 +9,9 @@ public class UIObjectPool : MonoBehaviour
     [SerializeField] private GameObject _appleImagePefab;
     [SerializeField] private GameObject _pearImagePefab;
     [SerializeField] private GameObject _strawberryImagePefab;
-    [SerializeField] private RectTransform _canvasParent;
+    [SerializeField] private RectTransform _appleParent;
+    [SerializeField] private RectTransform _pearParent;
+    [SerializeField] private RectTransform _strawberryParent;
 
     private List<GameObject> _applePool = new();
     private List<GameObject> _pearPool = new();
@@ -34,15 +36,15 @@ public class UIObjectPool : MonoBehaviour
     {
         for (int i = 0; i < poolSize; i++)
         {
-            var appleImageInstance = Instantiate(_appleImagePefab, _canvasParent);
+            var appleImageInstance = Instantiate(_appleImagePefab, _appleParent);
             appleImageInstance.SetActive(false);
             _applePool.Add(appleImageInstance);
             
-            var pearImageInstance = Instantiate(_pearImagePefab, _canvasParent);
+            var pearImageInstance = Instantiate(_pearImagePefab, _pearParent);
             pearImageInstance.SetActive(false);
             _pearPool.Add(pearImageInstance);
 
-            var strawberryImageInstance = Instantiate(_strawberryImagePefab, _canvasParent);
+            var strawberryImageInstance = Instantiate(_strawberryImagePefab, _strawberryParent);
             strawberryImageInstance.SetActive(false);
             _strawberryPool.Add(strawberryImageInstance);
 
@@ -52,17 +54,22 @@ public class UIObjectPool : MonoBehaviour
     public RectTransform GetPooledUIElement(string type, Vector3 spawnPos3D)
     {
         List<GameObject> pool = new List<GameObject>();
+        RectTransform canvasParent = new RectTransform();
+        
 
         switch (type)
         {
             case "Apple":
                 pool = _applePool;
+                canvasParent = _appleParent;
                 break;
             case "Pear":
                 pool = _pearPool;
+                canvasParent = _pearParent;
                 break;
             case "Strawberry":
                 pool = _strawberryPool;
+                canvasParent = _strawberryParent;
                 break;
         }
 
@@ -74,7 +81,7 @@ public class UIObjectPool : MonoBehaviour
 
                 RectTransform rectTrans = item.GetComponent<RectTransform>();
                 
-                SetUIElementPos(rectTrans, _canvasParent, spawnPos3D);
+                SetUIElementPos(rectTrans, canvasParent, spawnPos3D);
                 
                 return rectTrans;
             }

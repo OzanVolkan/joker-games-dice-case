@@ -71,6 +71,7 @@ public class UIManager : MonoBehaviour
         GenerateDropdownOptions();
         GenerateDiceInputFields(_maxDiceCount);
         ClearDiceInputFields();
+        RewardCountsUIUpdate(InventoryManager.Instance.AppleCount, InventoryManager.Instance.PearCount, InventoryManager.Instance.StrawberryCount);
     }
 
     private void RewardCountsUIUpdate(int appleCount, int pearCount, int strawberryCount)

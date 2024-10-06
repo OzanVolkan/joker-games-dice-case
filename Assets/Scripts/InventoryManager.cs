@@ -53,39 +53,51 @@ public class InventoryManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Block.OnClaimReward += OnAppleReward;
+        AppleBlock.OnAppleCollect += OnAppleReward;
+        PearBlock.OnPearCollect += OnPearPearReward;
+        StrawberryBlock.OnStrawberryCollect += OnStrawberryReward;
     }
 
     private void OnDisable()
     {
-        Block.OnClaimReward -= OnAppleReward;
+        AppleBlock.OnAppleCollect -= OnAppleReward;
+        PearBlock.OnPearCollect -= OnPearPearReward;
+        StrawberryBlock.OnStrawberryCollect -= OnStrawberryReward;
     }
 
     private void OnAppleReward(int rewardCount, Vector3 blockPos)
     {
-        print("girdii");
-        StartCoroutine(IncrementAppleCount(rewardCount, blockPos));
+        StartCoroutine(IncrementItemCount(rewardCount, blockPos, () => _appleCount, val => _appleCount = val,
+            UIManager.Instance.AppleUITrans, _appleType));
     }
 
-    private void OnPearPearReward()
+    private void OnPearPearReward(int rewardCount, Vector3 blockPos)
     {
+        StartCoroutine(IncrementItemCount(rewardCount, blockPos, () => _pearCount, val => _pearCount = val,
+            UIManager.Instance.PearUITrans, _pearType));
     }
 
-    private void OnStrawberryReward()
+    private void OnStrawberryReward(int rewardCount, Vector3 blockPos)
     {
+        StartCoroutine(IncrementItemCount(rewardCount, blockPos, () => _strawberryCount, val => _strawberryCount = val,
+            UIManager.Instance.StrawberryUITrans, _strawberryType));
     }
 
 
-    private IEnumerator IncrementAppleCount(int rewardCount, Vector3 blockPos)
+    private IEnumerator IncrementItemCount(int rewardCount, Vector3 blockPos, Func<int> getCount, Action<int> setCount,
+        RectTransform targetTrans, string type)
     {
-        var targetCount = _appleCount + rewardCount;
-        while (_appleCount < targetCount)
+        var targetCount = getCount() + rewardCount;
+        while (getCount() < targetCount)
         {
-            var elementRectTrans = UIObjectPool.Instance.GetPooledUIElement(_appleType, blockPos);
+            var elementRectTrans = UIObjectPool.Instance.GetPooledUIElement(type, blockPos);
 
-            yield return UIObjectMover.Instance.MoveToTarget(elementRectTrans, UIManager.Instance.AppleUITrans);
+            yield return UIObjectMover.Instance.MoveToTarget(elementRectTrans, targetTrans);
+            StartCoroutine(UIObjectMover.Instance.PopEffect(targetTrans));
 
-            _appleCount++;
+            elementRectTrans.gameObject.SetActive(false);
+
+            setCount(getCount() + 1);
 
             OnUpdateRewardCount?.Invoke(_appleCount, _pearCount, _strawberryCount);
 
