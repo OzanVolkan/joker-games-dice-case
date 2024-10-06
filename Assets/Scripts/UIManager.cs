@@ -7,47 +7,78 @@ using Random = UnityEngine.Random;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
+    
     public static event Action<int, List<int>> OnDiceRoll;
     public static event Action<List<int>> OnForwardMovement;
 
     private Action _onMovementEndAction;
-    
+
     [Header("Buttons")] [SerializeField] private Button _diceRollButton;
 
     [Header("Dice Settings")] [SerializeField]
     private GameObject _diceControlPanel;
+
     [SerializeField] private TMP_Dropdown _diceCountDropdown;
     [SerializeField] private GameObject _diceInputFieldPrefab;
     [SerializeField] private Transform _inputFieldContentParent;
 
+    [Header("Reward UI")] [SerializeField] private RectTransform _appleUITrans;
+    [SerializeField] private RectTransform _pearUITrans;
+    [SerializeField] private RectTransform _strawberryUITrans;
+    [SerializeField] private TextMeshProUGUI _appleCountText;
+    [SerializeField] private TextMeshProUGUI _pearCountText;
+    [SerializeField] private TextMeshProUGUI _strawberyyCountText;
 
     private List<GameObject> _diceInputFields = new();
-
-
     private readonly int _maxDiceCount = 20;
+
+    #region Properties
+
+    public RectTransform AppleUITrans => _appleUITrans;
+    public RectTransform PearUITrans => _pearUITrans;
+    public RectTransform StrawberryUITrans => _strawberryUITrans;
+
+    #endregion
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+            Destroy(gameObject);
+        else
+            Instance = this;
+    }
 
     private void OnEnable()
     {
         _onMovementEndAction = () => ButtonInteractableState(true, _diceRollButton);
         PlayerController.OnMovementEnd += _onMovementEndAction;
+        InventoryManager.Instance.OnUpdateRewardCount += RewardCountsUIUpdate;
     }
 
     private void OnDisable()
     {
         PlayerController.OnMovementEnd -= _onMovementEndAction;
+        InventoryManager.Instance.OnUpdateRewardCount -= RewardCountsUIUpdate;
     }
 
     private void Start()
     {
         _diceCountDropdown.onValueChanged.AddListener(OnDropdownValueChanged);
-        
+
         _diceRollButton.onClick.AddListener(DiceRollButtonOnClick);
-        
+
         GenerateDropdownOptions();
         GenerateDiceInputFields(_maxDiceCount);
         ClearDiceInputFields();
     }
 
+    private void RewardCountsUIUpdate(int appleCount, int pearCount, int strawberryCount)
+    {
+        _appleCountText.text = appleCount.ToString();
+        _pearCountText.text = pearCount.ToString();
+        _strawberyyCountText.text = strawberryCount.ToString();
+    }
 
     #region DiceSettings
 
@@ -94,7 +125,7 @@ public class UIManager : MonoBehaviour
             _diceInputFields[i].SetActive(true);
         }
     }
-    
+
     private int GetCurrentDiceCount()
     {
         return _diceCountDropdown.value + 1;
@@ -109,7 +140,7 @@ public class UIManager : MonoBehaviour
             var child = _inputFieldContentParent.GetChild(i).gameObject;
 
             if (!child.activeInHierarchy) continue;
-            
+
             var inputFieldText = child.GetComponent<DiceValueInputField>().InputField.text;
 
             if (string.IsNullOrEmpty(inputFieldText))
@@ -129,7 +160,7 @@ public class UIManager : MonoBehaviour
 
         return activeValues;
     }
-    
+
     #endregion
 
     #region UIAdjusments
@@ -146,11 +177,11 @@ public class UIManager : MonoBehaviour
     private void DiceRollButtonOnClick()
     {
         ButtonInteractableState(false, _diceRollButton);
-        
+
         var currentDiceCount = GetCurrentDiceCount();
 
         var currentValues = GetActiveInputFieldValues();
-        
+
         OnDiceRoll?.Invoke(currentDiceCount, currentValues);
         OnForwardMovement?.Invoke(currentValues);
     }

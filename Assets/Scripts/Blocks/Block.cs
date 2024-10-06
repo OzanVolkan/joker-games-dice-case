@@ -6,10 +6,11 @@ namespace Blocks
 {
     public abstract class Block : MonoBehaviour
     {
-        public static event Action<int> OnClaimReward;
-        
-        [Header("Block Visuals")]
-        [SerializeField] protected TextMeshProUGUI _rewardCountText;
+        public static event Action<int, Vector3> OnClaimReward;
+
+        [Header("Block Visuals")] [SerializeField]
+        protected TextMeshProUGUI _rewardCountText;
+
         [SerializeField] protected TextMeshProUGUI _blockNumber;
 
         private int _rewardCount;
@@ -24,14 +25,16 @@ namespace Blocks
 
         private void OnTriggerEnter(Collider other)
         {
+            print("Triggera Girdi");
             ClaimReward(other);
         }
 
-        protected virtual void ClaimReward(Collider other)
+        protected void ClaimReward(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                OnClaimReward?.Invoke(_rewardCount);
+                print("Player girdi");
+                OnClaimReward?.Invoke(_rewardCount, transform.position);
             }
         }
     }

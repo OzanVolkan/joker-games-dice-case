@@ -7,9 +7,19 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
+    public event Action<int, int, int> OnUpdateRewardCount;
+
     private int _appleCount;
     private int _pearCount;
     private int _strawberryCount;
+
+    #region Type
+
+    private readonly string _appleType = "Apple";
+    private readonly string _pearType = "Pear";
+    private readonly string _strawberryType = "Strawberry";
+
+    #endregion
 
     #region Properties
 
@@ -51,9 +61,10 @@ public class InventoryManager : MonoBehaviour
         Block.OnClaimReward -= OnAppleReward;
     }
 
-    private void OnAppleReward(int rewardCount)
+    private void OnAppleReward(int rewardCount, Vector3 blockPos)
     {
-        StartCoroutine(IncrementAppleCount(rewardCount));
+        print("girdii");
+        StartCoroutine(IncrementAppleCount(rewardCount, blockPos));
     }
 
     private void OnPearPearReward()
@@ -65,12 +76,20 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    private IEnumerator IncrementAppleCount(int rewardCount)
+    private IEnumerator IncrementAppleCount(int rewardCount, Vector3 blockPos)
     {
         var targetCount = _appleCount + rewardCount;
         while (_appleCount < targetCount)
         {
+            var elementRectTrans = UIObjectPool.Instance.GetPooledUIElement(_appleType, blockPos);
+
+            yield return UIObjectMover.Instance.MoveToTarget(elementRectTrans, UIManager.Instance.AppleUITrans);
+
             _appleCount++;
+
+            OnUpdateRewardCount?.Invoke(_appleCount, _pearCount, _strawberryCount);
+
+            //TODO: BURADA SES OYNATILACAK WUHUUUUUUUU **** 1!!!!11
 
             yield return new WaitForSeconds(0.1f);
         }

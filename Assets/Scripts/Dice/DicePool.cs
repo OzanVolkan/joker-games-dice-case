@@ -23,7 +23,6 @@ public class DicePool : MonoBehaviour
             diceParent.SetActive(false);
             _dicePool.Add(diceParent);
 
-            //It might not be the best option to accessing a component but we only use it one time at the beginning of the scene :)
             var diceAnim = diceParent.GetComponentInChildren<Animator>();
             var diceParentTrans = diceParent.transform;
 
