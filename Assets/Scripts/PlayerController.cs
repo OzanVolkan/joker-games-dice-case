@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // TODO: TESTTEN SONRA SİLİNECEK
         if (Input.GetKeyDown(KeyCode.A))
         {
             List<int> intList = new List<int>();
