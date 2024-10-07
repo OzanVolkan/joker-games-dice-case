@@ -8,6 +8,8 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance;
 
     public event Action<int, int, int> OnUpdateRewardCount;
+    public event Action OnMovementEnd;
+
 
     private int _appleCount;
     private int _pearCount;
@@ -56,6 +58,7 @@ public class InventoryManager : MonoBehaviour
         AppleBlock.OnAppleCollect += OnAppleReward;
         PearBlock.OnPearCollect += OnPearPearReward;
         StrawberryBlock.OnStrawberryCollect += OnStrawberryReward;
+        EmptyBlock.OnEmptyCollect += OnEmpty;
     }
 
     private void OnDisable()
@@ -63,6 +66,7 @@ public class InventoryManager : MonoBehaviour
         AppleBlock.OnAppleCollect -= OnAppleReward;
         PearBlock.OnPearCollect -= OnPearPearReward;
         StrawberryBlock.OnStrawberryCollect -= OnStrawberryReward;
+        EmptyBlock.OnEmptyCollect -= OnEmpty;
     }
 
     private void OnAppleReward(int rewardCount, Vector3 blockPos)
@@ -81,6 +85,11 @@ public class InventoryManager : MonoBehaviour
     {
         StartCoroutine(IncrementItemCount(rewardCount, blockPos, () => _strawberryCount, val => _strawberryCount = val,
             UIManager.Instance.StrawberryUITrans, _strawberryType));
+    }
+
+    private void OnEmpty()
+    {
+        OnMovementEnd?.Invoke();
     }
 
 
@@ -105,5 +114,7 @@ public class InventoryManager : MonoBehaviour
 
             yield return new WaitForSeconds(0.1f);
         }
+        
+        OnMovementEnd?.Invoke();
     }
 }

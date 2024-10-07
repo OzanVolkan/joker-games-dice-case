@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
 using Movement;
 
@@ -9,9 +10,10 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
 
-    public static event Action OnMovementEnd;
     public static event Action<Animator> OnEndMap;
     public static event Action<Animator> OnEnterMap;
+
+    [SerializeField] private CinemachineVirtualCamera _virtualCamera;
 
     private Movement.Movement _playerMovement;
     private Transform _playerTransform;
@@ -48,17 +50,13 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         UIManager.OnForwardMovement += MovePlayer;
+        CharacterSelection.OnGameStart += InitPlayerComps;
     }
 
     private void OnDisable()
     {
         UIManager.OnForwardMovement -= MovePlayer;
-    }
-
-    private void Start()
-    {
-        //TODO: DELETE HERE AFTER TEST
-        InitPlayerComps();
+        CharacterSelection.OnGameStart -= InitPlayerComps;
     }
 
     private void Update()
@@ -81,6 +79,9 @@ public class PlayerController : MonoBehaviour
                 _playerTransform = child;
                 _playerAnimator = child.GetComponent<Animator>();
                 _playerCollider = child.GetComponent<Collider>();
+
+                _virtualCamera.Follow = _playerTransform;
+                _virtualCamera.LookAt = _playerTransform;
             }
         }
     }
@@ -125,7 +126,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         EnableCollider(false);
-        OnMovementEnd?.Invoke();
     }
 
     private Action GetMoveMethod(Animator animator, int currentIndex, int blockCount)

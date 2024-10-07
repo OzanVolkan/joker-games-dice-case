@@ -52,13 +52,13 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         _onMovementEndAction = () => ButtonInteractableState(true, _diceRollButton);
-        PlayerController.OnMovementEnd += _onMovementEndAction;
+        InventoryManager.Instance.OnMovementEnd += _onMovementEndAction;
         InventoryManager.Instance.OnUpdateRewardCount += RewardCountsUIUpdate;
     }
 
     private void OnDisable()
     {
-        PlayerController.OnMovementEnd -= _onMovementEndAction;
+        InventoryManager.Instance.OnMovementEnd -= _onMovementEndAction;
         InventoryManager.Instance.OnUpdateRewardCount -= RewardCountsUIUpdate;
     }
 
