@@ -31,6 +31,8 @@ public class CharacterSelection : MonoBehaviour
         _leftArrow.onClick.AddListener(OnLeftButtonClick);
         _rightArrow.onClick.AddListener(OnRightButtonClick);
         _startButton.onClick.AddListener(OnStartButtonClick);
+        
+        OnLeftButtonClick();
     }
 
     private void OnLeftButtonClick()
@@ -56,10 +58,12 @@ public class CharacterSelection : MonoBehaviour
     private void OnStartButtonClick()
     {
         //TODO: START SESİ OYNATILACAK!!! ***
-        OnGameStart?.Invoke();
         _diceControlPanel.SetActive(true);
         _inventoryPanel.SetActive(true);
         _charSelectionPanel.SetActive(false);
+        
+        OnGameStart?.Invoke();
+
         gameObject.SetActive(false);
     }
 }

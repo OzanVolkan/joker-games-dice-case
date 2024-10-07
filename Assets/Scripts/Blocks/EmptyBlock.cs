@@ -13,10 +13,7 @@ namespace Blocks
 
         protected override void ClaimReward(Collider other)
         {
-            if (other.CompareTag("Player"))
-            {
-                OnEmptyCollect?.Invoke();
-            }
+            OnEmptyCollect?.Invoke();
         }
     }
 }

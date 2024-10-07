@@ -6,11 +6,13 @@ namespace Blocks
 {
     public abstract class Block : MonoBehaviour
     {
-        [Header("Block Visuals")] [SerializeField]
-        protected TextMeshProUGUI _rewardCountText;
-
+        [Header("Block Visuals")] 
+        [SerializeField] protected TextMeshProUGUI _rewardCountText;
         [SerializeField] protected TextMeshProUGUI _blockNumber;
 
+        [Header("Block Particle Effect")]
+        [SerializeField] protected ParticleSystem _blockParticleEffect;
+        
         protected int _rewardCount;
 
         public virtual void Initialize(int index, int rewardCount)
@@ -22,7 +24,9 @@ namespace Blocks
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!other.CompareTag("Player")) return;
             ClaimReward(other);
+            _blockParticleEffect.Play();
         }
 
         protected abstract void ClaimReward(Collider other);

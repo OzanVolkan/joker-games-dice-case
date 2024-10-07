@@ -51,9 +51,7 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _onMovementEndAction = () => ButtonInteractableState(true, _diceRollButton);
-        InventoryManager.Instance.OnMovementEnd += _onMovementEndAction;
-        InventoryManager.Instance.OnUpdateRewardCount += RewardCountsUIUpdate;
+        CharacterSelection.OnGameStart += SubscribeOnGameStart;
     }
 
     private void OnDisable()
@@ -71,7 +69,6 @@ public class UIManager : MonoBehaviour
         GenerateDropdownOptions();
         GenerateDiceInputFields(_maxDiceCount);
         ClearDiceInputFields();
-        RewardCountsUIUpdate(InventoryManager.Instance.AppleCount, InventoryManager.Instance.PearCount, InventoryManager.Instance.StrawberryCount);
     }
 
     private void RewardCountsUIUpdate(int appleCount, int pearCount, int strawberryCount)
@@ -79,6 +76,16 @@ public class UIManager : MonoBehaviour
         _appleCountText.text = appleCount.ToString();
         _pearCountText.text = pearCount.ToString();
         _strawberyyCountText.text = strawberryCount.ToString();
+    }
+
+    private void SubscribeOnGameStart()
+    {
+        _onMovementEndAction = () => ButtonInteractableState(true, _diceRollButton);
+        InventoryManager.Instance.OnMovementEnd += _onMovementEndAction;
+        
+        InventoryManager.Instance.OnUpdateRewardCount += RewardCountsUIUpdate;
+        
+        RewardCountsUIUpdate(InventoryManager.Instance.AppleCount, InventoryManager.Instance.PearCount, InventoryManager.Instance.StrawberryCount);
     }
 
     #region DiceSettings

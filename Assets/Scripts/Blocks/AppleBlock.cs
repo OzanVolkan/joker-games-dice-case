@@ -7,12 +7,10 @@ namespace Blocks
     {
         public static event Action<int, Vector3> OnAppleCollect;
         
+        
         protected override void ClaimReward(Collider other)
         {
-            if (other.CompareTag("Player"))
-            {
-                OnAppleCollect?.Invoke(_rewardCount, transform.position);
-            }
+            OnAppleCollect?.Invoke(_rewardCount, transform.position);
         }
 
     }

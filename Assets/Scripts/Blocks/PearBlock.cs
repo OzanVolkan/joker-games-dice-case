@@ -9,10 +9,7 @@ namespace Blocks
 
         protected override void ClaimReward(Collider other)
         {
-            if (other.CompareTag("Player"))
-            {
-                OnPearCollect?.Invoke(_rewardCount, transform.position);
-            }
+            OnPearCollect?.Invoke(_rewardCount, transform.position);
         }
     }
 }
