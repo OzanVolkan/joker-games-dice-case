@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rewardCountText: {fileID: 647624107645181675}
   _blockNumber: {fileID: 19555206367551285}
-  _blockParticleEffect: {fileID: 0}
+  _blockParticleEffect: {fileID: 4968011428837927244}
 --- !u!4 &8716980235856014796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1073873207587909188, guid: 4fc36d7ef214aa843940c6976ca88efa,
@@ -219,6 +219,12 @@ PrefabInstance:
 --- !u!4 &2818724783048510822 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5822373357929171929, guid: 5d603358566e3b3439cac79396ee1f1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8634287761490396863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4968011428837927244 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3684730558624329715, guid: 5d603358566e3b3439cac79396ee1f1a,
     type: 3}
   m_PrefabInstance: {fileID: 8634287761490396863}
   m_PrefabAsset: {fileID: 0}

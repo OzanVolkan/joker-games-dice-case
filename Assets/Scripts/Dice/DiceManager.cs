@@ -19,6 +19,8 @@ public class DiceManager : MonoBehaviour
 
     private string[] _animTriggerLetters = new[] { "A", "B", "C" };
     private Dictionary<Transform, Animator> _diceDic = new();
+    private List<Collider> _diceColliders = new();
+    private int _tempDiceIndex;
 
     #region Properties
 
@@ -26,6 +28,12 @@ public class DiceManager : MonoBehaviour
     {
         get => _diceDic;
         set => _diceDic = value;
+    }
+
+    public List<Collider> DiceColliders
+    {
+        get => _diceColliders;
+        set => _diceColliders = value;
     }
 
     #endregion
@@ -64,11 +72,17 @@ public class DiceManager : MonoBehaviour
                     DiceRandomPosition(key);
 
                     value.SetTrigger(GenerateDiceAnims(diceValues[i]));
-                    
+
+                    _diceColliders[_tempDiceIndex].enabled = true;
+
+                    _tempDiceIndex++;
+
                     break;
                 }
             }
         }
+
+        _tempDiceIndex = 0;
     }
 
     private void DiceRandomPosition(Transform diceTrans)
@@ -95,5 +109,4 @@ public class DiceManager : MonoBehaviour
 
         return animTriggerName;
     }
-    
 }

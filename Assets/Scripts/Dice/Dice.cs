@@ -7,6 +7,9 @@ public class Dice : MonoBehaviour
 {
     private Action<Animator> _onMovementStart;
 
+    [SerializeField] private ParticleSystem _impactParticle;
+    [SerializeField] private Collider _diceCollider;
+
     private void OnEnable()
     {
         _onMovementStart = (Animator _) => DeactivateDice();
@@ -21,5 +24,14 @@ public class Dice : MonoBehaviour
     private void DeactivateDice()
     {
         gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            _impactParticle.Play();
+            _diceCollider.enabled = false;
+        }
     }
 }

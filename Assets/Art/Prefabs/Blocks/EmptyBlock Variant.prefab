@@ -402,6 +402,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3917776366666708851}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &6222760710858953693 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6918957554057323694, guid: b2117a3903c4fd64aa007e28103ee4c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 3917776366666708851}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4333528925629447897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -509,4 +515,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rewardCountText: {fileID: 0}
   _blockNumber: {fileID: 97842887643169820}
-  _blockParticleEffect: {fileID: 0}
+  _blockParticleEffect: {fileID: 6222760710858953693}

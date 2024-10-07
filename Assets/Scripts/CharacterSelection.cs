@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class CharacterSelection : MonoBehaviour
 {
     public static event Action OnGameStart;
+    public static event Action OnButtonClick;
     
     [Header("Panels")] 
     [SerializeField] private GameObject _diceControlPanel;
@@ -31,12 +32,12 @@ public class CharacterSelection : MonoBehaviour
         _leftArrow.onClick.AddListener(OnLeftButtonClick);
         _rightArrow.onClick.AddListener(OnRightButtonClick);
         _startButton.onClick.AddListener(OnStartButtonClick);
-        
-        OnLeftButtonClick();
     }
 
     private void OnLeftButtonClick()
     {
+        OnButtonClick?.Invoke();
+        
         _peonChar.SetActive(true);
         _peonActual.SetActive(true);
         _carChar.SetActive(false);
@@ -47,6 +48,8 @@ public class CharacterSelection : MonoBehaviour
 
     private void OnRightButtonClick()
     {
+        OnButtonClick?.Invoke();
+
         _carChar.SetActive(true);
         _carActual.SetActive(true);
         _peonChar.SetActive(false);

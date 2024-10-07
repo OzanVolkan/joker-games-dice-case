@@ -7,8 +7,8 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
-    public event Action<int, int, int> OnUpdateRewardCount;
-    public event Action OnMovementEnd;
+    public static event Action<int, int, int> OnUpdateRewardCount;
+    public static event Action OnMovementEnd;
 
 
     private int _appleCount;

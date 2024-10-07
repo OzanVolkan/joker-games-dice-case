@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     
     public static event Action<int, List<int>> OnDiceRoll;
-    public static event Action<List<int>> OnForwardMovement;
+    public static Action<List<int>> OnForwardMovement;
 
     private Action _onMovementEndAction;
 
@@ -56,8 +56,8 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        InventoryManager.Instance.OnMovementEnd -= _onMovementEndAction;
-        InventoryManager.Instance.OnUpdateRewardCount -= RewardCountsUIUpdate;
+        InventoryManager.OnMovementEnd -= _onMovementEndAction;
+        InventoryManager.OnUpdateRewardCount -= RewardCountsUIUpdate;
     }
 
     private void Start()
@@ -81,9 +81,9 @@ public class UIManager : MonoBehaviour
     private void SubscribeOnGameStart()
     {
         _onMovementEndAction = () => ButtonInteractableState(true, _diceRollButton);
-        InventoryManager.Instance.OnMovementEnd += _onMovementEndAction;
+        InventoryManager.OnMovementEnd += _onMovementEndAction;
         
-        InventoryManager.Instance.OnUpdateRewardCount += RewardCountsUIUpdate;
+        InventoryManager.OnUpdateRewardCount += RewardCountsUIUpdate;
         
         RewardCountsUIUpdate(InventoryManager.Instance.AppleCount, InventoryManager.Instance.PearCount, InventoryManager.Instance.StrawberryCount);
     }

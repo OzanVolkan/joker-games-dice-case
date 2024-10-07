@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Interfaces;
 using UnityEngine;
@@ -6,6 +7,7 @@ namespace Movement
 {
     public sealed class CarMovement : Movement, IDrivable
     {
+        public static event Action OnCarMovement;
         public void Move(Transform playerTrans, float time, Animator animator, int currentIndex,
             int blockCount)
         {
@@ -14,6 +16,8 @@ namespace Movement
             if (currentIndex != blockCount)
                 base.Move(animator);
 
+            OnCarMovement?.Invoke();
+            
             StartCoroutine(DriveCoroutine(playerTrans, time, currentIndex, blockCount));
         }
 

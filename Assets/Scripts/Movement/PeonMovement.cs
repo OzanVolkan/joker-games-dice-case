@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Interfaces;
 using UnityEngine;
@@ -6,6 +7,7 @@ namespace Movement
 {
     public sealed class PeonMovement : Movement, IJumpable
     {
+        public static event Action OnPeonMovement;
         public void Move(Transform playerTrans, float height, float time, Animator animator, int currentIndex,
             int blockCount)
         {
@@ -14,6 +16,8 @@ namespace Movement
             if (currentIndex != blockCount)
                 base.Move(animator);
 
+            OnPeonMovement?.Invoke();
+            
             StartCoroutine(JumpCoroutine(playerTrans, height, time, currentIndex, blockCount));
         }
 

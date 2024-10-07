@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
             {
                 _currentIndex = 0;
 
-                yield return HandleEndOfMap(_playerTransform, time);
+                yield return HandleEndOfMap(_playerTransform, time, i == stepAmount);
 
                 continue;
             }
@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
         };
     }
 
-    private IEnumerator HandleEndOfMap(Transform playerTrans, float time)
+    private IEnumerator HandleEndOfMap(Transform playerTrans, float time, bool isLastStep)
     {
         OnEndMap?.Invoke(_playerAnimator);
         _playerMovement.VerticalJump(playerTrans, time, true);
@@ -151,6 +151,12 @@ public class PlayerController : MonoBehaviour
         OnEnterMap?.Invoke(_playerAnimator);
         _playerMovement.VerticalJump(playerTrans, time, false);
         yield return new WaitForSeconds(time + 0.1f);
+        
+        if(!isLastStep) yield break;
+        
+        EnableCollider(true);
+        yield return new WaitForSeconds(0.1f);
+        EnableCollider(false);
     }
 
     private void EnableCollider(bool state)
