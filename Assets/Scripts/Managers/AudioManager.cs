@@ -36,6 +36,8 @@ namespace Managers
         [SerializeField] private AudioClip _tpEffect;
         [SerializeField] private AudioClip _levelMusic;
 
+        private bool _isMuted;
+
         #region EffectAudioSourceValues
 
         private readonly float _pitchIncrement = 0.1f;
@@ -71,6 +73,7 @@ namespace Managers
             CarMovement.OnCarMovement += PlayCarMovement;
             CharacterSelection.OnGameStart += PlayGameStart;
             CharacterSelection.OnButtonClick += PlayButtonClick;
+            UIManager.OnToggleMute += ToggleMute;
         }
 
         private void OnDisable()
@@ -86,6 +89,7 @@ namespace Managers
             CarMovement.OnCarMovement -= PlayCarMovement;
             CharacterSelection.OnGameStart -= PlayGameStart;
             CharacterSelection.OnButtonClick -= PlayButtonClick;
+            UIManager.OnToggleMute -= ToggleMute;
         }
 
         private void PlayPeonMovement()
@@ -148,6 +152,12 @@ namespace Managers
             yield return new WaitForSeconds(_pitchResetDelay);
 
             _effectAudioSource.pitch = _defaultPitch;
+        }
+
+        private void ToggleMute()
+        {
+            _isMuted = !_isMuted;
+            AudioListener.volume = _isMuted ? 0 : 1;
         }
     }
 }

@@ -17,10 +17,12 @@ namespace UI
     
         public static event Action<int, List<int>> OnDiceRoll;
         public static Action<List<int>> OnForwardMovement;
+        public static Action OnToggleMute;
 
         private Action _onMovementEndAction;
 
         [Header("Buttons")] [SerializeField] private Button _diceRollButton;
+        [SerializeField] private Button _muteButton;
 
         [Header("Dice Settings")] [SerializeField]
         private GameObject _diceControlPanel;
@@ -72,6 +74,7 @@ namespace UI
             _diceCountDropdown.onValueChanged.AddListener(OnDropdownValueChanged);
 
             _diceRollButton.onClick.AddListener(DiceRollButtonOnClick);
+            _muteButton.onClick.AddListener(() => OnToggleMute?.Invoke());
 
             GenerateDropdownOptions();
             GenerateDiceInputFields(_maxDiceCount);
