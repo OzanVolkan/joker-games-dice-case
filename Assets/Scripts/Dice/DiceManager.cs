@@ -13,7 +13,7 @@ public class DiceManager : MonoBehaviour
     #region DiceMinMaxValues
 
     private readonly float _diceYValue = 16.7f;
-    private readonly float _diceZOffset = 10;
+    private readonly float _diceZOffset = 5;
 
     #endregion
 
@@ -93,7 +93,7 @@ public class DiceManager : MonoBehaviour
 
         var diceZVal = camZ - _diceZOffset;
 
-        var randZ = Random.Range(diceZVal, diceZVal + 25f);
+        var randZ = Random.Range(diceZVal, diceZVal + 20f);
 
         var dicePos = new Vector3(randX, _diceYValue, randZ);
 
