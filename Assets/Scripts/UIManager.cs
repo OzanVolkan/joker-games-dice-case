@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviour, IDragHandler
 {
     public static UIManager Instance;
     
@@ -22,6 +23,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown _diceCountDropdown;
     [SerializeField] private GameObject _diceInputFieldPrefab;
     [SerializeField] private Transform _inputFieldContentParent;
+    [SerializeField] private ScrollRect _inputFieldsScrollRect;
 
     [Header("Reward UI")] [SerializeField] private RectTransform _appleUITrans;
     [SerializeField] private RectTransform _pearUITrans;
@@ -109,7 +111,22 @@ public class UIManager : MonoBehaviour
             GameObject newInputField = Instantiate(_diceInputFieldPrefab, _inputFieldContentParent);
 
             _diceInputFields.Add(newInputField);
+
+            EventTrigger eventTrigger = newInputField.GetComponent<EventTrigger>();
+
+            EventTrigger.Entry dragEntry = new EventTrigger.Entry()
+            {
+                eventID = EventTriggerType.Drag
+            };
+
+            dragEntry.callback.AddListener ((data) => { OnDrag((PointerEventData)data);});
+            eventTrigger.triggers.Add(dragEntry);
         }
+    }
+
+    public void OnDrag(PointerEventData data)
+    {
+        _inputFieldsScrollRect.OnDrag(data);
     }
 
     private void ClearDiceInputFields()
