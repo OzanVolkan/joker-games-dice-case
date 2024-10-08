@@ -1,37 +1,38 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Dice : MonoBehaviour
+namespace Dice
 {
-    private Action<Animator> _onMovementStart;
-
-    [SerializeField] private ParticleSystem _impactParticle;
-    [SerializeField] private Collider _diceCollider;
-
-    private void OnEnable()
+    public class Dice : MonoBehaviour
     {
-        _onMovementStart = (Animator _) => DeactivateDice();
-        Movement.Movement.OnForwardMovement += _onMovementStart;
-    }
+        private Action<Animator> _onMovementStart;
 
-    private void OnDisable()
-    {
-        Movement.Movement.OnForwardMovement -= _onMovementStart;
-    }
+        [SerializeField] private ParticleSystem _impactParticle;
+        [SerializeField] private Collider _diceCollider;
 
-    private void DeactivateDice()
-    {
-        gameObject.SetActive(false);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Ground"))
+        private void OnEnable()
         {
-            _impactParticle.Play();
-            _diceCollider.enabled = false;
+            _onMovementStart = (Animator _) => DeactivateDice();
+            PlayerControl.Movement.Movement.OnForwardMovement += _onMovementStart;
+        }
+
+        private void OnDisable()
+        {
+            PlayerControl.Movement.Movement.OnForwardMovement -= _onMovementStart;
+        }
+
+        private void DeactivateDice()
+        {
+            gameObject.SetActive(false);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Ground"))
+            {
+                _impactParticle.Play();
+                _diceCollider.enabled = false;
+            }
         }
     }
 }

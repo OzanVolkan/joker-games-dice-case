@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-[Serializable]
-public class MapData
+namespace Map
 {
-    public List<MapElement> map;
-    
+    [Serializable]
+    public class MapData
+    {
+        public List<MapElement> map;
+    }
 }

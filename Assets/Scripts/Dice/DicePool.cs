@@ -1,34 +1,35 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DicePool : MonoBehaviour
+namespace Dice
 {
-    [SerializeField] private GameObject _dicePrefab;
-
-    private List<GameObject> _dicePool = new();
-    private readonly int _poolSize = 20;
-
-    private void Start()
+    public class DicePool : MonoBehaviour
     {
-        PoolDice(_poolSize);
-    }
+        [SerializeField] private GameObject _dicePrefab;
 
+        private List<GameObject> _dicePool = new();
+        private readonly int _poolSize = 20;
 
-    private void PoolDice(int poolSize)
-    {
-        for (int i = 0; i < poolSize; i++)
+        private void Start()
         {
-            var diceParent = Instantiate(_dicePrefab);
-            diceParent.SetActive(false);
-            _dicePool.Add(diceParent);
+            PoolDice(_poolSize);
+        }
+        
+        private void PoolDice(int poolSize)
+        {
+            for (int i = 0; i < poolSize; i++)
+            {
+                var diceParent = Instantiate(_dicePrefab);
+                diceParent.SetActive(false);
+                _dicePool.Add(diceParent);
 
-            var diceAnim = diceParent.GetComponentInChildren<Animator>();
-            var diceParentTrans = diceParent.transform;
-            var diceCollider = diceParent.GetComponentInChildren<Collider>();
+                var diceAnim = diceParent.GetComponentInChildren<Animator>();
+                var diceParentTrans = diceParent.transform;
+                var diceCollider = diceParent.GetComponentInChildren<Collider>();
 
-            DiceManager.Instance.DiceDic.Add(diceParentTrans, diceAnim);
-            DiceManager.Instance.DiceColliders.Add(diceCollider);
+                DiceManager.Instance.DiceDic.Add(diceParentTrans, diceAnim);
+                DiceManager.Instance.DiceColliders.Add(diceCollider);
+            }
         }
     }
 }

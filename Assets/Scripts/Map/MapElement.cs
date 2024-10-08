@@ -1,17 +1,19 @@
 using System;
-using UnityEngine;
 
-[Serializable]
-public class MapElement
+namespace Map
 {
-    public int index;
-    public string type;
-    public int count;
-
-    public MapElement(int index, string type, int count = 0)
+    [Serializable]
+    public class MapElement
     {
-        this.index = index;
-        this.type = type;
-        this.count = count;
+        public int index;
+        public string type;
+        public int count;
+
+        public MapElement(int index, string type, int count = 0)
+        {
+            this.index = index;
+            this.type = type;
+            this.count = count;
+        }
     }
 }
