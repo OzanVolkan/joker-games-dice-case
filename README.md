@@ -43,6 +43,6 @@ https://github.com/user-attachments/assets/8d557dc9-ad17-4868-8bfc-9272a0357d19
 
 ### Additional Notes
 
-● Developed using Unity version 2022.3.16.
+● Developed using **Unity version 2022.3.16**
 
 ● Developed the project with the **Android target platform** selected, optimized for **portrait screen mode**, and **tested** it on a mobile Android device.
