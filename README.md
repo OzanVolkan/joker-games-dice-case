@@ -1,6 +1,12 @@
 # Joker Games Dice Case
  A dice game case study that combines elements of inventory management, dynamic map generation and interactive dice mechanics.
 
+
+
+https://github.com/user-attachments/assets/8d557dc9-ad17-4868-8bfc-9272a0357d19
+
+
+
 ## Features
 
 ### Inventory System
